@@ -85,7 +85,7 @@ async def command_add(message):
     user = message.from_user
     accounts = parse_unique_arguments(message.text)
     if len(accounts) == 0:
-        await bot.send_balance(user.id, "No accounts specified")
+        await bot.send_message(user.id, "No accounts specified")
         return
     msgs = []
     for acc in accounts:
@@ -105,7 +105,7 @@ async def command_remove(message):
     user = message.from_user
     accounts = parse_unique_arguments(message.text)
     if len(accounts) == 0:
-        await bot.send_balance(user.id, "No accounts specified")
+        await bot.send_message(user.id, "No accounts specified")
         return
     msgs = []
     for acc in accounts:
