@@ -72,6 +72,7 @@ Leave empty to pass all accounts you have (except for `/add` and `/remove` comma
 `/add {accs}` — add new tracking accounts.
 `/remove {accs}` — remove accounts from tracking.
 `/balance {accs}` — get balance of given accounts.
+`/balance_usd {accs}` — get balance converted to usd at current exchange rate.
 
 ⸻ _Multiplier_ ⸻
 
