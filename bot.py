@@ -57,7 +57,7 @@ Bot that tracks your [Near wallet](https://wallet.near.org) balances. Updates ev
 To change this time please contact the developer.
 
 ⸻ _Main commands_ ⸻
-    
+
 `{accs}` is a list of accounts separated by space, comma, etc.
 Leave empty to pass all accounts you have (except for `/add` and `/remove` commands).
 
@@ -84,6 +84,9 @@ Multiplier shows your balance multiplied by the given coefficient.
 async def command_add(message):
     user = message.from_user
     accounts = parse_unique_arguments(message.text)
+    if len(accounts) == 0:
+        await bot.send_balance(user.id, "No accounts specified")
+        return
     msgs = []
     for acc in accounts:
         if not db.check_account_validated(user.id, acc) and not get_account_valid(acc):
@@ -101,6 +104,9 @@ async def command_add(message):
 async def command_remove(message):
     user = message.from_user
     accounts = parse_unique_arguments(message.text)
+    if len(accounts) == 0:
+        await bot.send_balance(user.id, "No accounts specified")
+        return
     msgs = []
     for acc in accounts:
         if db.remove_account(user.id, acc):
