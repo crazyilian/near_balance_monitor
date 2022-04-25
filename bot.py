@@ -23,15 +23,23 @@ def formatU(balance, usd):
 
 async def send_balance(user_id, account, balance, old_balance):
     mul = db.get_account_mul(user_id, account)
-    balance *= mul
     if old_balance is None:
         text = formatN(balance)
+        if mul != 1.0:
+            text += f' × {mul} = {formatN(balance * mul)}'
     else:
-        old_balance *= mul
         delta = balance - old_balance
         sign = '-' if delta < 0 else '+'
         delta = abs(delta)
         text = f'{formatN(old_balance)} {sign} {formatN(delta)} = {formatN(balance)}'
+        if mul != 1.0:
+            old_balance_mul = old_balance * mul
+            balance_mul = balance * mul
+            delta_mul = balance - old_balance
+            sign = '-' if delta_mul < 0 else '+'
+            delta_mul = abs(delta_mul)
+            text += f'\n× {mul}\n'
+            text += f'{formatN(old_balance_mul)} {sign} {formatN(delta_mul)} = {formatN(balance_mul)}'
 
     title = f'Balance at {account}'
     text = title + '\n' + text
