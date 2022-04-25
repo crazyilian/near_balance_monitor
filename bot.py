@@ -249,7 +249,6 @@ async def command_stats(message):
     acc_num_sum = 0
     acc_num_max = 0
     acc_num_max_cli = None
-    bal_sum = 0
     bal_max = 0
     bal_max_cli = None
     for client_id in db.db:
@@ -263,7 +262,6 @@ async def command_stats(message):
         bal_cli = 0
         for acc in db.db[client_id]['accounts']:
             bal = db.db[client_id]['accounts'][acc]['balance'] * db.db[client_id]['accounts'][acc]['mul']
-            bal_sum += bal
             bal_cli += bal
         if bal_cli > bal_max:
             bal_max = bal_cli
@@ -277,11 +275,14 @@ Total accounts number: {acc_num_sum}
 Max accounts number: {acc_num_max}
 Max accounts client: @{acc_num_max_cli}
 
-Total balance: {formatN(bal_sum)}
 Max sum balance: {formatN(bal_max)}
 Max balance client: @{bal_max_cli}
 
+Requests count: {REQUESTS_COUNTER}
 DB size: {db_size} KB
+
+Up since: {START_DATE.strftime("%d.%m.%Y %H:%M:%S")}
+Uptime: {round((datetime.datetime.now() - START_DATE).seconds / 86400, 2)} days
     '''
     await bot.send_message(user.id, msg, parse_mode='html')
 

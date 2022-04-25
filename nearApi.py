@@ -1,5 +1,6 @@
 import logging
 import requests
+import instances
 
 
 logging.basicConfig()
@@ -8,6 +9,7 @@ logger.setLevel(logging.DEBUG)
 
 
 def get_near_account_info(username):
+    instances.REQUESTS_COUNTER += 1
     logger.debug('Calling near api...')
     url = 'https://rpc.mainnet.near.org'
     data = {

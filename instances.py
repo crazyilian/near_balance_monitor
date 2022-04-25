@@ -4,6 +4,7 @@ import logging
 import os
 import aiogram
 import asyncio
+import datetime
 
 
 logging.basicConfig()
@@ -17,3 +18,6 @@ bot = aiogram.Bot(BOT_TOKEN)
 botdp = aiogram.Dispatcher(bot, loop=loop)
 db = dataBase.DataBase('db.json')
 Q = accountQueue.AccountQueue(db)
+
+REQUESTS_COUNTER = 0
+START_DATE = datetime.datetime.now()
