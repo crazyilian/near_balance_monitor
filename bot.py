@@ -61,7 +61,7 @@ async def help_message(message):
     mins = 'minutes' if updates_interval != '1' else 'minute'
     msg = '''
 Bot that tracks your [Near wallet](https://wallet.near.org) balances. If the balance has changed, the bot \
-will send you a message. Check for updates every ''' + updates_interval + ' ' + mins + '''. \
+will send you a message. It checks for updates every ''' + updates_interval + ' ' + mins + '''. \
 To change this time please contact the developer.
 
 ⸻ _Main commands_ ⸻
