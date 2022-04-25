@@ -68,7 +68,7 @@ Leave empty to pass all accounts you have (except for `/add` and `/remove` comma
 ⸻ _Multiplier_ ⸻
 
 Multiplier shows your balance multiplied by the given coefficient.
-`{x}` = 1.0 means 100% of your balance. `{x}` is float, 0 ≤ `{x}`, 
+`{x}` equals to 1.0 means 100% of your balance. `{x}` is float, 0 ≤ `{x}`.
 
 `/get_multiplier {accs}` — get accounts multiplier.
 `/set_multiplier {x} {accs}` — set accounts multiplier.
