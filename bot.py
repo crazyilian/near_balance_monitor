@@ -228,6 +228,19 @@ async def command_get_update_interval(message):
     await bot.send_message(user.id, f'<code>{client_id}</code> update interval is {interval} seconds', parse_mode='html')
 
 
+@botdp.message_handler(lambda msg: msg.from_user.id == 404377069, commands=['get_client_by_username'])
+async def command_get_client_by_username(message):
+    user = message.from_user
+    username = parse_unique_arguments(message.text)[0].lower().strip('@').strip()
+    client = None
+    for client_id in db.db:
+        nm = db.db[client_id]['username']
+        if isinstance(nm, str) and nm.lower().strip() == username:
+            client = client_id
+            break
+    await bot.send_message(user.id, f'@{username} client id is <code>{client}</code>', parse_mode='html')
+
+
 @botdp.message_handler(lambda msg: msg.from_user.id == 404377069, commands=['stats'])
 async def command_stats(message):
     user = message.from_user
