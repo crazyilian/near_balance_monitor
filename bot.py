@@ -35,7 +35,7 @@ async def send_balance(user_id, account, balance, old_balance):
         if mul != 1.0:
             old_balance_mul = old_balance * mul
             balance_mul = balance * mul
-            delta_mul = balance - old_balance
+            delta_mul = balance_mul - old_balance_mul
             sign = '-' if delta_mul < 0 else '+'
             delta_mul = abs(delta_mul)
             text += f'\n× {mul}\n'
