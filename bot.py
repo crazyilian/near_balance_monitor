@@ -41,9 +41,9 @@ async def send_balance(user_id, account, balance, old_balance):
             text += f'\n× {mul}\n'
             text += f'{formatN(old_balance_mul)} {sign} {formatN(delta_mul)} = {formatN(balance_mul)}'
 
-    title = f'Balance at {account}'
+    title = f'Balance at <code>{account}</code>'
     text = title + '\n' + text
-    await bot.send_message(user_id, text)
+    await bot.send_message(user_id, text, parse_mode='html')
 
 
 def parse_unique_arguments(command):
