@@ -262,12 +262,9 @@ async def command_stats(message):
             acc_num_max_cli = username
         bal_cli = 0
         for acc in db.db[client_id]['accounts']:
-            bal = db.db[client_id]['accounts'][acc]['balance']
+            bal = db.db[client_id]['accounts'][acc]['balance'] * db.db[client_id]['accounts'][acc]['mul']
             bal_sum += bal
             bal_cli += bal
-            if bal > bal_max:
-                bal_max = bal
-                bal_max_acc = acc
         if bal_cli > bal_max:
             bal_max = bal_cli
             bal_max_cli = username
