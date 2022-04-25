@@ -53,7 +53,8 @@ async def help_message(message):
     updates_interval = str(5 if tm is None else tm // 60 if tm % 60 == 0 else round(tm / 60, 2))
     mins = 'minutes' if updates_interval != '1' else 'minute'
     msg = '''
-Bot that tracks your [Near wallet](https://wallet.near.org) balances. Updates every ''' + updates_interval + ' ' + mins + '''. \
+Bot that tracks your [Near wallet](https://wallet.near.org) balances. If the balance has changed, the bot \
+will send you a message. Check for updates every ''' + updates_interval + ' ' + mins + '''. \
 To change this time please contact the developer.
 
 ⸻ _Main commands_ ⸻
