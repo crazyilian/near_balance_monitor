@@ -10,11 +10,15 @@ logger.setLevel(logging.DEBUG)
 
 
 def yocto(balance):
-    return str(round(balance / 1e24, 3))
+    return balance / 1e24
 
 
 def formatN(balance):
-    return f'Ⓝ {yocto(balance)}'
+    return f'Ⓝ {round(yocto(balance), 3)}'
+
+
+def formatU(balance, usd):
+    return f'${round(yocto(balance) * usd, 1)}'
 
 
 async def send_balance(user_id, account, balance, old_balance):
@@ -119,13 +123,19 @@ async def command_remove(message):
     await bot.send_message(user.id, msg, parse_mode='html')
 
 
-@botdp.message_handler(commands=['balance'])
+@botdp.message_handler(commands=['balance', 'balance_usd'])
 async def command_total(message):
     user = message.from_user
     accounts = parse_unique_arguments(message.text)
     if len(accounts) == 0:
         accounts = db.get_accounts(user.id)
     msgs = []
+    if message.text.split()[0] == 'balance':
+        formatF = formatN
+    else:
+        usd = nearApi.get_usd_currency()
+        msgs.append(f'Ⓝ1 ≈ ${usd}')
+        formatF = lambda x: formatU(x, usd)
     total = 0
     total_mul = 0
     valid_accounts_cnt = 0
@@ -139,9 +149,9 @@ async def command_total(message):
             balance_mul = balance * mul
             total += balance
             total_mul += balance_mul
-            msgs.append(f"<code>{acc}</code>\n{formatN(balance)} × {mul} = {formatN(balance_mul)}")
+            msgs.append(f"<code>{acc}</code>\n{formatF(balance)} × {mul} = {formatF(balance_mul)}")
     if valid_accounts_cnt > 1:
-        msgs.append(f'<i>Total:</i>\n{formatN(total)} × α = {formatN(total_mul)}')
+        msgs.append(f'<i>Total:</i>\n{formatF(total)} × α = {formatF(total_mul)}')
     msg = '\n\n'.join(msgs)
     await bot.send_message(user.id, msg, parse_mode='html')
 

@@ -32,3 +32,7 @@ def get_account_valid(username):
     logger.debug('Validating account')
     resp = get_near_account_info(username).json()
     return 'error' not in resp
+
+
+def get_usd_currency():
+    return requests.get('https://helper.mainnet.near.org/fiat').json()['near']['usd']
