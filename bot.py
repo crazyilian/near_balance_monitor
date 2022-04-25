@@ -1,7 +1,7 @@
 import re
 from instances import *
 import logging
-from nearApi import *
+import nearApi
 
 
 logging.basicConfig()
@@ -90,7 +90,7 @@ async def command_add(message):
         return
     msgs = []
     for acc in accounts:
-        if not db.check_account_validated(user.id, acc) and not get_account_valid(acc):
+        if not db.check_account_validated(user.id, acc) and not nearApi.get_account_valid(acc):
             msgs.append(f"<code>{acc}</code> not valid")
         elif db.add_account(user.id, acc):
             msgs.append(f"<code>{acc}</code> added")
@@ -278,7 +278,7 @@ Max accounts client: @{acc_num_max_cli}
 Max sum balance: {formatN(bal_max)}
 Max balance client: @{bal_max_cli}
 
-Requests count: {REQUESTS_COUNTER}
+Requests count: {nearApi.REQUESTS_COUNTER}
 DB size: {db_size} KB
 
 Up since: {START_DATE.strftime("%d.%m.%Y %H:%M:%S")}

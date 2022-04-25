@@ -19,5 +19,4 @@ botdp = aiogram.Dispatcher(bot, loop=loop)
 db = dataBase.DataBase('db.json')
 Q = accountQueue.AccountQueue(db)
 
-REQUESTS_COUNTER = 0
 START_DATE = datetime.datetime.now()
