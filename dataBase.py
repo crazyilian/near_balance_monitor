@@ -53,7 +53,7 @@ class DataBase:
         if account not in accs:
             return False
         disaccs[account] = accs[account]
-        disaccs[account]['balance'] = None
+        # disaccs[account]['balance'] = None
         disaccs[account]['mul'] = 1.0
         accs.pop(account)
         self.dump()
