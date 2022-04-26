@@ -11,8 +11,11 @@ class AccountQueue:
             for acc in db.get_accounts(user):
                 self.add(user, acc)
 
-    def add(self, user_id, account):
-        next_update = self.db.get_next_update_time(user_id, account)
+    def add(self, user_id, account, tm=None):
+        if tm is None:
+            next_update = self.db.get_next_update_time(user_id, account)
+        else:
+            next_update = tm + self.db.get_timestamp(user_id, account)
         self.next_upd[(user_id, account)] = next_update
         self.queue.add((next_update, user_id, account))
 

@@ -79,6 +79,9 @@ class DataBase:
     def get_balance(self, user_id, account):
         return self.db[user_id]['accounts'].get(account, {}).get('balance')
 
+    def get_timestamp(self, user_id, account):
+        return self.db[user_id]['accounts'].get(account, {}).get('timestamp')
+
     def get_account_mul(self, user_id, account):
         return self.db[user_id]['accounts'].get(account, {}).get('mul')
 
