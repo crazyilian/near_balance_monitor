@@ -87,6 +87,9 @@ class DataBase:
 
     def update_balance(self, user_id, account, balance, timestamp):
         self.db[user_id]['accounts'][account]['balance'] = balance
+        self.dump()
+
+    def update_timestamp(self, user_id, account, timestamp):
         self.db[user_id]['accounts'][account]['timestamp'] = timestamp
         self.dump()
 

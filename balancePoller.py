@@ -33,13 +33,15 @@ async def get_one_balance():
         await asyncio.sleep(0.2)
     tm, user_id, account = Q.pop()
     balance = get_balance(account)
-    Q.add(user_id, account, 60)
+    db.update_timestamp(user_id, account, int(time.time()))
     if balance is None:
-        return
-    old_balance = db.get_balance(user_id, account)
-    db.update_balance(user_id, account, balance, int(time.time()))
-    if balance != old_balance:
-        await send_balance(user_id, account, balance, old_balance)
+        Q.add(user_id, account, 60)
+    else:
+        Q.add(user_id, account)
+        old_balance = db.get_balance(user_id, account)
+        db.update_balance(user_id, account, balance)
+        if balance != old_balance:
+            await send_balance(user_id, account, balance, old_balance)
 
 
 async def run_balance():
