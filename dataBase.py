@@ -85,7 +85,7 @@ class DataBase:
     def get_account_mul(self, user_id, account):
         return self.db[user_id]['accounts'].get(account, {}).get('mul')
 
-    def update_balance(self, user_id, account, balance, timestamp):
+    def update_balance(self, user_id, account, balance):
         self.db[user_id]['accounts'][account]['balance'] = balance
         self.dump()
 
