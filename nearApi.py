@@ -36,5 +36,5 @@ async def get_account_valid(username):
 
 
 async def get_usd_currency():
-    resp = await (await session.get('https://helper.mainnet.near.org/fiat')).json()
-    return resp['near']['usd']
+    resp = await (await session.get('https://api.kucoin.com/api/v1/prices?base=USD&currencies=NEAR')).json()
+    return float(resp['data']['NEAR'])
