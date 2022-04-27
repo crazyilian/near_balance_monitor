@@ -2,43 +2,12 @@ import re
 from instances import *
 import logging
 import nearApi
+from balancePoller import formatN, formatU, remove_task, add_task, recreate_tasks
 
 
 logging.basicConfig()
 logger = logging.getLogger('TeleBot')
 logger.setLevel(logging.DEBUG)
-
-
-def yocto(balance):
-    return balance / 1e24
-
-
-def formatN(balance):
-    return f'Ⓝ {round(yocto(balance), 3)}'
-
-
-def formatU(balance, usd):
-    return f'${round(yocto(balance) * usd, 1)}'
-
-
-async def send_balance(user_id, account, balance, old_balance):
-    title = f'Balance at <code>{account}</code>'
-    mul = db.get_account_mul(user_id, account)
-    if old_balance is None:
-        text = formatN(balance)
-        if mul != 1.0:
-            text += f' × {mul} = {formatN(balance * mul)}'
-    else:
-        old_balance_mul = old_balance * mul
-        balance_mul = balance * mul
-        delta_mul = balance_mul - old_balance_mul
-        sign = '-' if delta_mul < 0 else '+'
-        delta_mul = abs(delta_mul)
-        text = f'{formatN(old_balance_mul)} {sign} {formatN(delta_mul)} = {formatN(balance_mul)}'
-        if mul != 1.0:
-            title += f' × {mul}'
-    text = title + '\n' + text
-    await bot.send_message(user_id, text, parse_mode='html')
 
 
 def parse_unique_arguments(command):
@@ -102,7 +71,7 @@ async def command_add(message):
             msgs.append(f"<code>{acc}</code> not valid")
         elif db.add_account(user.id, acc):
             msgs.append(f"<code>{acc}</code> added")
-            Q.add(user.id, acc)
+            await add_task(user.id, acc)
         else:
             msgs.append(f"<code>{acc}</code> already exists")
     msg = '\n'.join(msgs)
@@ -120,7 +89,7 @@ async def command_remove(message):
     for acc in accounts:
         if db.remove_account(user.id, acc):
             msgs.append(f"<code>{acc}</code> removed")
-            Q.remove(user.id, acc)
+            await remove_task(user.id, acc)
         else:
             msgs.append(f"<code>{acc}</code> doesn't exist")
     msg = '\n'.join(msgs)
@@ -226,6 +195,7 @@ async def command_set_update_interval(message):
     else:
         seconds = int(seconds)
     db.set_update_interval(client_id, seconds)
+    await recreate_tasks()
     await bot.send_message(user.id, f'<code>{client_id}</code> update interval set to {seconds} seconds', parse_mode='html')
     await bot.send_message(client_id, f'Your balance update interval is {seconds} seconds now.')
 
