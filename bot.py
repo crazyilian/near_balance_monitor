@@ -106,7 +106,7 @@ async def command_total(message):
     if message.text.split()[0] == '/balance':
         formatF = formatN
     else:
-        usd = nearApi.get_usd_currency()
+        usd = await nearApi.get_usd_currency()
         msgs.append(f'Ⓝ 1 ≈ ${usd}')
         formatF = lambda x: formatU(x, usd)
     total = 0
