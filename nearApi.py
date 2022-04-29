@@ -12,7 +12,7 @@ UNCOMPLETED_REQUESTS_COUNTER = 0
 
 
 async def get_near_account_info(username):
-    global REQUESTS_COUNTER
+    global REQUESTS_COUNTER, UNCOMPLETED_REQUESTS_COUNTER
     REQUESTS_COUNTER += 1
     UNCOMPLETED_REQUESTS_COUNTER += 1
     logger.debug('Calling near api...')
