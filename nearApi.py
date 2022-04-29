@@ -8,11 +8,13 @@ logger.setLevel(logging.DEBUG)
 
 session = aiohttp.ClientSession()
 REQUESTS_COUNTER = 0
+UNCOMPLETED_REQUESTS_COUNTER = 0
 
 
 async def get_near_account_info(username):
     global REQUESTS_COUNTER
     REQUESTS_COUNTER += 1
+    UNCOMPLETED_REQUESTS_COUNTER += 1
     logger.debug('Calling near api...')
     url = 'https://rpc.mainnet.near.org'
     data = {
@@ -26,6 +28,7 @@ async def get_near_account_info(username):
         "jsonrpc": "2.0"
     }
     resp = await (await session.post(url, json=data)).json()
+    UNCOMPLETED_REQUESTS_COUNTER -= 1
     return resp
 
 

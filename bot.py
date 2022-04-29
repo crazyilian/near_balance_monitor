@@ -263,6 +263,7 @@ Max sum balance: {formatN(bal_max)}
 Max balance client: @{bal_max_cli}
 
 Requests count: {nearApi.REQUESTS_COUNTER}
+Uncompleted requests: {nearApi.UNCOMPLETED_REQUESTS_COUNTER}
 DB size: {db_size} KB
 
 Up since: {START_DATE.strftime("%d.%m.%Y %H:%M:%S")}
