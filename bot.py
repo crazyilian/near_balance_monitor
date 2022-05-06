@@ -267,7 +267,7 @@ Uncompleted requests: {nearApi.UNCOMPLETED_REQUESTS_COUNTER}
 DB size: {db_size} KB
 
 Up since: {START_DATE.strftime("%d.%m.%Y %H:%M:%S")}
-Uptime: {round((datetime.datetime.now() - START_DATE).seconds / 86400, 2)} days
+Uptime: {round((datetime.datetime.now() - START_DATE).total_seconds() / 86400, 2)} days
     '''
     await bot.send_message(user.id, msg, parse_mode='html')
 
